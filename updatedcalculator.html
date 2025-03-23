@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #000;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .calculator {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            padding: 20px;
+            background: #222;
+            border-radius: 10px;
+            max-width: 320px;
+        }
+        .calculator input {
+            grid-column: span 4;
+            height: 50px;
+            background: #333;
+            color: white;
+            font-size: 1.5em;
+            text-align: right;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .calculator button {
+            height: 50px;
+            font-size: 1.2em;
+            border: none;
+            border-radius: 5px;
+            background: #444;
+            color: white;
+            cursor: pointer;
+        }
+        .calculator button:active {
+            background: #666;
+        }
+        .calculator button.equal {
+            background: #007bff;
+            color: white;
+        }
+        .calculator button.equal:active {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <input type="text" id="display" value="" readonly>
+        <button onclick="clearDisplay()">C</button>
+        <button onclick="appendValue('(')">(</button>
+        <button onclick="appendValue(')')">)</button>
+        <button onclick="deleteLast()">⌫</button>
+        <button onclick="appendValue('7')">7</button>
+        <button onclick="appendValue('8')">8</button>
+        <button onclick="appendValue('9')">9</button>
+        <button onclick="appendValue('/')">÷</button>
+        <button onclick="appendValue('4')">4</button>
+        <button onclick="appendValue('5')">5</button>
+        <button onclick="appendValue('6')">6</button>
+        <button onclick="appendValue('*')">×</button>
+        <button onclick="appendValue('1')">1</button>
+        <button onclick="appendValue('2')">2</button>
+        <button onclick="appendValue('3')">3</button>
+        <button onclick="appendValue('-')">−</button>
+        <button onclick="appendValue('0')">0</button>
+        <button onclick="appendValue('.')">.</button>
+        <button class="equal" onclick="calculateResult()">=</button>
+        <button onclick="appendValue('+')">+</button>
+        <button onclick="appendValue('Math.sqrt(')">√</button>
+        <button onclick="appendValue('Math.pow(')">xʸ</button>
+        <button onclick="appendValue('Math.sin(')">sin</button>
+        <button onclick="appendValue('Math.cos(')">cos</button>
+        <button onclick="appendValue('Math.tan(')">tan</button>
+        <button onclick="appendValue('Math.log(')">log</button>
+    </div>
+
+    <script>
+        function appendValue(value) {
+            document.getElementById("display").value += value;
+        }
+
+        function clearDisplay() {
+            document.getElementById("display").value = "";
+        }
+
+        function deleteLast() {
+            let display = document.getElementById("display");
+            display.value = display.value.slice(0, -1);
+        }
+
+        function calculateResult() {
+            try {
+                let expression = document.getElementById("display").value;
+                if (expression.includes('Math.sqrt') || expression.includes('Math.pow') || 
+                    expression.includes('Math.sin') || expression.includes('Math.cos') || 
+                    expression.includes('Math.tan') || expression.includes('Math.log')) {
+                    document.getElementById("display").value = eval(expression + ')'.repeat((expression.match(/\(/g) || []).length - (expression.match(/\)/g) || []).length));
+                } else {
+                    document.getElementById("display").value = eval(expression);
+                }
+            } catch (error) {
+                alert("Invalid expression");
+            }
+        }
+    </script>
+</body>
+</html>
